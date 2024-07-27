@@ -52,3 +52,22 @@ Mueve los familiares, verifica interacciones de Perry con sombreros, golosinas, 
 - 1: Juego ganado (todas las bombas desactivadas)
 - -1: Juego perdido (Perry se queda sin vidas)
 - 0: Juego activo
+
+# Interfaz grafica con Python
+Se ha desarrollado una interfaz gráfica en Python utilizando Tkinter para interactuar con el juego en C. La interfaz permite iniciar el juego, ver la salida en tiempo real, y enviar comandos al juego directamente desde una ventana gráfica.
+
+# Requisitos
+- Python 3: Debe estar instalado en tu sistema.
+- Tkinter: Asegúrate de que Tkinter esté instalado.
+
+# Cómo ejecutar la interfaz gráfica
+Ejecutar el script Python:
+- python3 interfaz.py
+Uso de la Interfaz:
+- Botón "Ejecutar Juego": Inicia el juego en una terminal nueva y oculta el botón.
+- Área de texto: Muestra la salida del juego en tiempo real.
+- Área de entrada: Permite enviar comandos al juego. Los comandos se envían automáticamente al presionar Enter.
+
+# Notas
+- Comandos del Juego: Puedes enviar comandos directamente desde la área de entrada y presionar Enter para enviarlos.
+- Actualización en Tiempo Real: La salida del juego se muestra en la interfaz gráfica a medida que se genera en el juego en C.
