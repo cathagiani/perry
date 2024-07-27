@@ -324,12 +324,14 @@ void agregar_robot(juego_t* juego) {
     juego->robots = realloc(juego->robots, (size_t)(juego->cantidad_robots + 1) * sizeof(coordenada_t));    
     if (juego->robots == NULL) {
         printf("Error al reservar memoria para un nuevo robot");
+        fflush(stdout);  // Vaciar el búfer
         return;
     }
     juego->robots[juego->cantidad_robots].fil = 0;
     juego->robots[juego->cantidad_robots].col = 0;
     juego->cantidad_robots++;
     printf("Oh no! Aparecio un robot!");
+    fflush(stdout);  // Vaciar el búfer
     juego->robots[juego->cantidad_robots - 1] = generar_coordenada_robots(juego);
 }
 
@@ -406,10 +408,15 @@ void colocar_elementos_en_terreno(juego_t juego, char terreno[LIMITE_MAX_TERRENO
 */
 void imprimir_datos_del_juego(juego_t juego) {
     printf("Cantidad de vidas: %d\n", juego.perry.vida);
+    fflush(stdout);  // Vaciar el búfer
     printf("Cantidad de energia: %d\n", juego.perry.energia);
+    fflush(stdout);  // Vaciar el búfer
     printf("Camuflaje: %s\n", (juego.perry.camuflado) ? "Activado" : "Desactivado");
+    fflush(stdout);  // Vaciar el búfer
     printf("Bombas activas: %d\n", juego.tope_bombas - bombas_desactivadas(juego));
+    fflush(stdout);  // Vaciar el búfer
     printf("Robots activos: %d\n", juego.cantidad_robots);
+    fflush(stdout);  // Vaciar el búfer
 }
 
 
@@ -454,6 +461,7 @@ void alterar_vidas_segun_distancia_familiares(juego_t *juego){
         if (distancia <= DISTANCIA_PERRY_FAMILIARES_MAXIMA && !juego->perry.camuflado){
             juego->perry.vida--;
             printf("perdiste una vida! :(");
+            fflush(stdout);  // Vaciar el búfer
         }
     }
 }
@@ -517,6 +525,7 @@ void incrementar_vida_si_perry_sobre_sombrero(juego_t *juego){
         if (herramienta->tipo == SOMBRERO && herramienta->posicion.fil == juego->perry.posicion.fil && herramienta->posicion.col == juego->perry.posicion.col){
             juego->perry.vida++;
             printf("agarraste un sombrero! +1 vida !");
+            fflush(stdout);  // Vaciar el búfer
             for (int j = i; j < juego->tope_herramientas - 1; j++){
                 juego->herramientas[j] = juego->herramientas[j+1];
             }
@@ -540,6 +549,7 @@ void incrementar_energia_si_perry_sobre_golosina(juego_t *juego){
         if (herramienta->tipo == GOLOSINAS && herramienta->posicion.fil == juego->perry.posicion.fil && herramienta->posicion.col == juego->perry.posicion.col){
             juego->perry.energia += ENERGIA_EXTRA;
             printf("agarraste una golosina! +20 de energia !");
+            fflush(stdout);  // Vaciar el búfer
             for (int j = i; j < juego->tope_herramientas - 1; j++){
                 juego->herramientas[j] = juego->herramientas[j+1];
             }
@@ -567,6 +577,7 @@ void actualizar_timers_y_verificar_explosion_bombas(juego_t *juego){
             if (juego->bombas[i].timer == 0){
                 juego->perry.vida--;
                 printf("perdiste una vida por la explosion de una bomba! :(");
+                fflush(stdout);  // Vaciar el búfer
                 juego->bombas[i].desactivada = true;
             }
         }
@@ -588,6 +599,7 @@ void desactivar_bomba_si_perry_encima(juego_t *juego){
         if (!juego->bombas[i].desactivada && juego->bombas[i].posicion.fil == juego->perry.posicion.fil && juego->bombas[i].posicion.col == juego->perry.posicion.col && !juego->perry.camuflado && juego->perry.energia >= ENERGIA_QUITADA_POR_BOMBA){
             juego->bombas[i].desactivada = true;
             printf("muy bien agente P! desactivaste una bomba!");
+            fflush(stdout);  // Vaciar el búfer
             juego->perry.energia -=ENERGIA_QUITADA_POR_BOMBA;
             for (int j = i; j < juego->tope_bombas - 1; j++){
                 juego->bombas[j] = juego->bombas[j+1];
@@ -619,6 +631,7 @@ void destruir_robot(juego_t* juego, int indice) {
     juego->robots = realloc(juego->robots, new_size);
     if (juego->robots == NULL && juego->cantidad_robots > 1) {
         printf("Error al liberar memoria para el arreglo de robots");
+        fflush(stdout);  // Vaciar el búfer
         return;
     }
 
@@ -641,15 +654,18 @@ void interactuar_con_robots(juego_t* juego) {
             if (juego->perry.camuflado) {
                 juego->perry.vida--;
                 printf("Perry perdio una vida debido a un robot estando camuflado.");
+                fflush(stdout);  // Vaciar el búfer
             } else {
                 if (juego->perry.energia >= ENERGIA_QUITADA_POR_ROBOT){
                     juego->perry.energia -= ENERGIA_QUITADA_POR_ROBOT;
                 } else {
                     juego->perry.vida--;
                     printf("Perry perdio una vida debido a un robot y falta de energia.");
+                    fflush(stdout);  // Vaciar el búfer
                 }
                 destruir_robot(juego, i);
                 printf("Perry destruyo un robot");
+                fflush(stdout);  // Vaciar el búfer
                 i--;
             }
         }

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 const char ARRIBA = 'W';
 const char arriba = 'w';
 const char ABAJO = 'S';
@@ -57,10 +58,12 @@ int procesar_juego(juego_t* juego) {
       imprimir_terreno(*juego);      
       do {
         printf("Ingrese una accion (W, A, S, D, Q): ");
+        fflush(stdout);  // Vaciar el búfer
         scanf(" %c", &accion);
 
         if (!es_accion_valida(accion)) {
           printf("Acción inválida. Intente nuevamente.\n");
+          fflush(stdout);  // Vaciar el búfer
         }
       } while (!es_accion_valida(accion));
       
@@ -86,8 +89,10 @@ int procesar_juego(juego_t* juego) {
 void concluir_juego(int resultado, juego_t juego) {
   if (resultado == GANADO) {
     printf("Felicidades! ganaste!\n");
+    fflush(stdout);  // Vaciar el búfer
   } else if (resultado == PERDIDO) {
     printf("Oh no! perdiste!\n");
+    fflush(stdout);  // Vaciar el búfer
   }
 }
 
